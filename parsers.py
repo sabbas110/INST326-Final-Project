@@ -27,6 +27,15 @@ def prereq_format3_parser(prereq_description):
     return prereq
 
 
+#INST201
+
+def prereq_inst201_parser(prereq_description):
+    script = script.replace(s4)
+    script = script.replace(",", "").replace("and ", "").replace("or ", "")
+    crosslist = script.split()
+    return crosslist
+
+
 
 '''
 Crosslist parser
