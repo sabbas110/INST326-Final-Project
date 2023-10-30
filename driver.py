@@ -1,4 +1,4 @@
-from cws import get_corequisite, get_credits, get_crosslist, get_prerequisites, get_genEd
+from webscrapers import get_corequisite, get_credits, get_crosslist, get_prerequisites, get_genEd
 
 class Course:
     '''Creates a University of Maryland course.
