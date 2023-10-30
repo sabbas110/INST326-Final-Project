@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 import sys
-from prp import crosslist_parser
+from parsers import crosslist_parser
 
 
 def get_content(course_in, url):
