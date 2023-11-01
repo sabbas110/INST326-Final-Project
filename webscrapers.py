@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 import sys
-from parsers import crosslist_parser
+from prp import crosslist_parser, prerequisite_assembler
 
 
 def get_content(course_in, url):
@@ -76,6 +76,7 @@ def get_credits(course_in):
     course_content = get_course_content(course_in)
 
     #retreiving the credits from the course on webpage
+    #for courses with a range of credits, the minimum credits is assumed
     credits = course_content.find("span", class_ = "course-min-credits").text
     credits = int(credits)
     return credits
@@ -136,7 +137,8 @@ def get_prerequisites(course_in):
         if requirement.startswith("Prerequisite:"):
             requirement_list = requirement.split(";")
             requirement_list = clean_list(requirement_list)
-            return requirement_list
+            prerequisites = prerequisite_assembler(requirement_list)
+            return prerequisites
         
     #none were found
     return []
