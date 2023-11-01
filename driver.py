@@ -35,10 +35,5 @@ def format_course_name(course_in):
 
     return formatted_course_name
 
-course1 = Course("bsci135")
-print(course1.name)
-print(course1.credits)
-print(course1.prerequisites)
-print(course1.corequisites)
-print(course1.genEd)
-print(course1.crosslist)
+course = Course("gems104")
+print(course.genEd)
