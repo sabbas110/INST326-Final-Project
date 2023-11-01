@@ -1,41 +1,100 @@
 import re
 
+#doesnt work for this one yet
 # straightforward one or more courses format
-s1a = "CCJS100"
-s1b = "MATH140 and MATH141"
-s1c = "INST326, INST327, and INST314"
+# #Prerequisite: MATH240, MATH241
 
 def prereq_format1_parser(prereq_description):
-    prereq = prereq_description.replace("and ", "").replace(",", "").split()
-    return prereq
+    prereqs = prereq_description.replace("Prerequisite: ", "")
+    prereqs = prereqs.replace("and ", "").replace(",", "").split()
+    return prereqs
 
 
 # 1 course with minumum grade of C- from... format
-s2 = "1 course with a minimum grade of C- from (MATH461, MATH240, MATH341)."
 
-def prereq_format2_parser(prereq_description):
+def prereq_format2a_parser(prereq_description):
     prereq = re.search(r'(?<=from \().*(?=\))', prereq_description).group().split(", ")
     return prereq
 
+# 1 course with minumum grade of C- from... format
+
+def prereq_format2b_parser(prereq_description):
+    prereq = re.search(r'(?<=from ).*', prereq_description).group()
+    andFlag = False
+    if "and" in prereq:
+        andFlag = True
+    prereq = prereq.replace("or ", "").replace("and ", "").replace(",", "").split(" ")
+    return prereq, andFlag
+
 
 # minimum grade of C- in... format
-s3a = "and minimum grade of C- in MATH310."
-s3b = "and minimum grade of C- in MATH310 or MATH241;"
 
 def prereq_format3_parser(prereq_description):
-    prereq = re.search(r'(?<=C- in ).*(?=[;.])', prereq_description).group().split(" or ")
-    return prereq
+    prereq = re.search(r'(?<=C- in ).*', prereq_description).group()
+    andFlag = False
+    if "and" in prereq:
+        andFlag = True
+    prereq = prereq.replace("or ", "").replace("and ", "").replace(",", "").split(" ")
+    return prereq, andFlag
 
 
-#INST201
+'''
+prereq list assembler
+'''
 
-def prereq_inst201_parser(prereq_description):
-    script = script.replace(s4)
-    script = script.replace(",", "").replace("and ", "").replace("or ", "")
-    crosslist = script.split()
-    return crosslist
+def prerequisite_assembler(prerequisites):
+    assembled_prerequisites = []
 
+    for prereq in prerequisites:
+        print(prereq)
 
+        '''
+        these conditionals search for substrings within the unassembled prerequisites
+
+        if a condition is met, there is an associated parser function that will handle
+        the prerequisite that contains a specific substring
+        '''
+        if "C- from (" in prereq:
+
+            parsed_prereq = prereq_format2a_parser(prereq)
+            assembled_prerequisites.append(parsed_prereq)
+
+        elif "C- from " in prereq:
+
+            parsed_prereq, andFlag = prereq_format2b_parser(prereq)
+
+            # if the andFlag is true, that means the courses should be entered seperately because they are all required
+            # if there is only 1 course then it can just be entered seperately
+            if andFlag == True or len(parsed_prereq) == 1:
+                for prereq in parsed_prereq:
+                    assembled_prerequisites.append(prereq)
+            # if the flag is false then that means any one of those classes suffice, so they should be entered together in a list
+            else:
+                assembled_prerequisites.append(parsed_prereq)
+
+        elif "C- in" in prereq:
+
+            parsed_prereq, andFlag = prereq_format3_parser(prereq)
+            print(andFlag)
+
+            # if the andFlag is true, that means the courses should be entered seperately because they are all required
+            # if there is only 1 course then it can just be entered seperately
+            if andFlag == True or len(parsed_prereq) == 1:
+                for prereq in parsed_prereq:
+                    assembled_prerequisites.append(prereq)
+            # if the flag is false then that means any one of those classes suffice, so they should be entered together in a list
+            else:
+                assembled_prerequisites.append(parsed_prereq)
+
+        elif prereq.startswith("Prerequisite"):
+
+            parsed_prereq = prereq_format1_parser(prereq)
+
+            for prereq in parsed_prereq:
+                assembled_prerequisites.append(prereq)
+
+    #return the list of assembled prerequisites after all iterations of prerequisites
+    return assembled_prerequisites
 
 '''
 Crosslist parser
