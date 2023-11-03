@@ -35,5 +35,24 @@ def format_course_name(course_in):
 
     return formatted_course_name
 
+def genEd_satisfaction_check(course_list):
+    '''checks to see if all general education requirements have been met by courses
+    Args:
+        course_list(list): list of course objects
+    Returns:
+        satisfied(boolean): true or false based on satisfaction evaluation
+    '''
+    pass
+    
+def degree_requirement_check(major, course_list):
+    '''checks to see if all major specific requirements have been met by courses
+    Args:
+        major(str): college major
+        course_list(list): list of course objects
+    Returns:
+        satisfied(boolean): true or false based on satisfaction evaluation
+    '''
+    pass
+    
 course = Course("gems104")
 print(course.genEd)
