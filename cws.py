@@ -5,6 +5,13 @@ from prp import crosslist_parser, prerequisite_assembler
 
 
 def get_content(course_in, url):
+    '''gets all content under the tag containing a course name from the webpage the url leads to
+    Args:
+        course_in(str): name of a course in schedule of classes format
+        url(str): url to the schedule of classes webpage (either fall 2023 or spring 2024)
+    Returns:
+        content(beautiful soup object): an object containing html describing the content of the course
+    '''
 
     #webscraping:
 
@@ -19,7 +26,7 @@ def get_content(course_in, url):
 
     return content
 
-#need try and except clause for course_content = soup.find("div", id = formatted_course) line to handle invalid course error
+
 def get_course_content(course_in):
     '''Finds the html content associated with a course on the Schedule of Classes on Testudo.
     Args:
@@ -83,6 +90,13 @@ def get_credits(course_in):
 
 
 def clean_list(old_list):
+    '''filters and cleanly formats items in a list to make so the items can be effectively used in other funcions
+    Args:
+        old_list(list): list of items
+    Returns:
+        clean_list(list): list with filtered and cleanly formatted items
+    '''
+    
     #initializing new list for cleaned requirements
     clean_list = []
 
@@ -97,6 +111,14 @@ def clean_list(old_list):
 
 
 def get_requirements(course_in):
+    '''gets the restrictions, prerequisites, corequisites, and crosslists associated with a course
+    Args:
+        course_in(str): name of a course
+    Returns:
+        requirements(list): list of restrictions, prerequisites, corequisites, and crosslists associated with a course
+        empty list if no requirements are found
+    '''
+    
     #calling get_course_content function to get the course content
     course_content = get_course_content(course_in)
 
@@ -108,12 +130,20 @@ def get_requirements(course_in):
         #creating list of requirements
         requirements = requirements.split(".")
 
+        #cleaning them
         requirements = clean_list(requirements)
         return requirements
     except:
         return []
 
 def get_corequisite(course_in):
+    '''gets the corequisites course(s) of a course
+    Args:
+        course_in(str): name of a course
+    Returns:
+        requirement(str): phrase describing corequisite of a course
+        empty list if no corequisites are found
+    '''
         
     requirements = get_requirements(course_in)
     for requirement in requirements:
@@ -128,14 +158,23 @@ def get_corequisite(course_in):
 
 
 def get_prerequisites(course_in):
+    '''gets the prerequisite courses for a course
+    Args:
+        course_in(str): name of a course
+    Returns:
+        prerequisites(list): list of prerequisite courses for a course
+        empty list if no prerequisites are found
+    '''
         
     requirements = get_requirements(course_in)
     for requirement in requirements:
 
         #checking if a prerequisite requirement exists
-        #returning that requirement if it does exist
         if requirement.startswith("Prerequisite:"):
+            
+            #splitting it into a list by the standard ";" character that denotes separation of requirements
             requirement_list = requirement.split(";")
+            #cleaning it and running it through the assembler so it can be properly parsed for further data analysis
             requirement_list = clean_list(requirement_list)
             prerequisites = prerequisite_assembler(requirement_list)
             return prerequisites
@@ -145,8 +184,18 @@ def get_prerequisites(course_in):
 
 
 def get_crosslist(course_in):
-    
+    '''gets crosslist courses for a course
+    Args:
+        course_in(str): name of a course
+    Returns:
+        requirement(str): crosslist courses for a course
+        empty list if no crosslist is found
+    '''
+
+    #getting all the requirements for the course
     requirements = get_requirements(course_in)
+
+    #finding the crosslist requirement
     for requirement in requirements:
         if requirement.startswith("Credit only granted for:"):
             requirement = crosslist_parser(requirement)
@@ -157,7 +206,15 @@ def get_crosslist(course_in):
 
 
 def get_genEd(course_in):
-    #calling get_course_content function to get the course content
+    '''gets the genEd satisfactions for a course
+    Args:
+        course_in(str): name of a course
+    Returns:
+        genEd(list): list of genEds
+        empty list if no genEds are found
+    '''
+    
+    #getting all the course content
     course_content = get_course_content(course_in)
 
     #retreiving the genEds from the course on webpage
