@@ -1,3 +1,7 @@
+'''
+this file is just being used to simulate what running the program is going to be like
+don't worry about this file
+'''
 from misc import Course
 
 plan_complete = False
