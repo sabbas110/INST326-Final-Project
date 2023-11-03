@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 import sys
-from parsers import crosslist_parser, prerequisite_assembler
+from prp import crosslist_parser, prerequisite_assembler
 
 
 def get_content(course_in, url):
@@ -155,7 +155,7 @@ def get_crosslist(course_in):
     #none were found
     return []
 
-#only works if genEd exists
+
 def get_genEd(course_in):
     #calling get_course_content function to get the course content
     course_content = get_course_content(course_in)
@@ -165,7 +165,11 @@ def get_genEd(course_in):
         genEd = course_content.find("div", class_ = "gen-ed-codes-group six columns")
         genEd = genEd.text.replace("\t", "").replace("\n", " ").replace("GenEd:", "").replace(" ", "")
         genEd = genEd.split(",")
-
+        for item in genEd:
+            if "or" in item:
+                genEd.remove(item)
+                satisfactions = item.split("or")
+                genEd.append(satisfactions)
         return genEd
     except:
         return []
