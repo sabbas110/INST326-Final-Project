@@ -39,7 +39,7 @@ def corequisiteTest():
     assert(expected == output)
 
 def prerequisiteTest():
-    expected = 'INST201, PSYC100 or SOCY105'
+    expected = [[INST201, PSYC100, SOCY105]]
     output = cws.get_prerequisites('INST371')
     assert(expected == output)
 
