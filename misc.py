@@ -1,4 +1,4 @@
-from cws import get_corequisite, get_credits, get_crosslist, get_prerequisites, get_genEd
+from cws import get_corequisite, get_credits, get_crosslist, get_prerequisites, get_genEd, get_course_content
 
 class Course:
     '''Creates a University of Maryland course.
@@ -13,11 +13,12 @@ class Course:
 
     def __init__(self, name):
         self.name = format_course_name(name)
-        self.credits = get_credits(self.name)
-        self.prerequisites = get_prerequisites(self.name)
-        self.corequisites = get_corequisite(self.name)
-        self.crosslist = get_crosslist(self.name)
-        self.genEd = get_genEd(self.name)
+        course_content = get_course_content(self.name)
+        self.credits = get_credits(course_content)
+        self.prerequisites = get_prerequisites(course_content)
+        self.corequisites = get_corequisite(course_content)
+        self.crosslist = get_crosslist(course_content)
+        self.genEd = get_genEd(course_content)
 
 
 def format_course_name(course_in):
