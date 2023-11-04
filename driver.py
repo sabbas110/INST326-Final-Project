@@ -2,51 +2,30 @@
 this file is just being used to simulate what running the program is going to be like
 don't worry about this file
 '''
+
+from bs4 import BeautifulSoup
+import requests
 from misc import Course
 
-plan_complete = False
-graduation_plan = {}
-current_semester = 0
+source = requests.get("https://app.testudo.umd.edu/soc/202401/AGST").text
 
-while plan_complete == False:
+soup = BeautifulSoup(source, "lxml")
 
-    current_semester += 1
-    print("Semester " + str(current_semester) + ":")
+courses = soup.find_all("div", class_ = "course-id")
 
-    semester_complete = False
-    semester_courses = []
-    
-    while semester_complete == False:
-        course = input("Enter Course: \n")
+courses_list = []
 
-        if course == "plan done":
-            plan_complete = True
-            semester_complete = True
-        elif course == "semester done":
-            semester_complete = True
-        else:
-            semester_courses.append(course)
+for course in courses:
 
-    graduation_plan[current_semester] = semester_courses
+    courses_list.append(course.text)
 
-updated_plan = {}
+for course in courses_list:
 
-for semester, courses in graduation_plan.items():
-
-    course_list = []
-    for course in courses:
-
-        course = Course(course)
-        course_list.append(course)
-
-    updated_plan[semester] = course_list
-
-for semester, courses in updated_plan.items():
-    for course in courses:
-        print("name:", course.name)
-        print("credits:", course.credits)
-        print("prerequisites:", course.prerequisites)
-        print("corequisites", course.corequisites)
-        print("crosslist:", course.crosslist)
-        print("genEd:", course.genEd)
+    course = Course(course)
+    print(course.name)
+    print(course.credits)
+    print(course.corequisites)
+    print(course.prerequisites)
+    print(course.crosslist)
+    print(course.genEd)
     
