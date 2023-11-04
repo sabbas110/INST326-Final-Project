@@ -32,3 +32,23 @@ def creditsTest():
     expected = 3
     output = cws.get_credits("INST326")
     assert(expected == output)
+
+def corequisiteTest():
+    expected = []
+    output = cws.get_corequisite("INST326")
+    assert(expected == output)
+
+def prerequisiteTest():
+    expected = 'INST201, PSYC100 or SOCY105'
+    output = cws.get_prerequisites('INST371')
+    assert(expected == output)
+
+def getGenEdTest():
+    expected = ['DSHS', 'DVUP']
+    output = cws.get_genEd('HIST111')
+    assert(expected == output)
+
+def coursenameTest():
+    expected = 'INST327'
+    output = cws.format_course_name('INST327')
+    assert(expected == output)
