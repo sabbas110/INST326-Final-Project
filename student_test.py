@@ -1,5 +1,6 @@
 import cws
 import misc
+import prp
 
 #run it with:
 #python3 -m pytest StudentTests.py  
@@ -47,3 +48,49 @@ def getGenEdTest():
     expected = ['DSHS', 'DVUP']
     output = cws.get_genEd('HIST111')
     assert(expected == output)
+
+def prereq1Test():
+    expected = 'Minimum grade of C- in INST126 or GEOG276.'
+    output = prp.prereq_format1_parser('INST326')
+    assert(expected == output)
+
+def prereq2aTest():
+    expected = 'Minimum grade of C- in CMSC141 and MATH140.'
+    output = prp.prereq_format2a_parser('CMSC142')
+    assert(expected == output)
+
+def prereq2bTest():
+    expected = 'Minimum grade of C- in CMSC330 and CMSC351; 1 course with a minimum grade of C- from (MATH240, MATH341, MATH461).'
+    output = prp.prereq_format2b_parser('CMSC426')
+    assert(expected == output)
+
+def prereq2cTest():
+    expected = '1 course with a minimum grade of C- from (MATH131, MATH141).'
+    output = prp.prereq_format2c_parser('MATH240')
+    assert(expected == output)
+
+def prereq3Test():
+    expected = 'Minimum grade of C- in INST364.'
+    output = prp.prereq_format3_parser('INST467')
+    assert(expected == output)
+
+def prereqassemblerTest():
+    expected = 'Minimum grade of C- from INST126 or GEOG276; and minimum grade of C- in STAT100; and minimum grade of C- in one of the following (AASP101, ANTH210, ANTH260, ECON200, ECON201,GEOG202, GVPT170, PSYC100, SOCY100, or SOCY105).'
+    output = prp.prerequisite_assembler('INST366')
+    assert(expected == output)
+
+def crosslistTest():
+    expected = 'CMSC100.'
+    output = prp.crosslist_parser('INST101')
+    assert(expected == output)
+
+def genEdparserTest():
+    expected = ['DSSP']
+    output = prp.genEd_parser('INST327')
+    assert(expected == output)
+
+def courseformatTest():
+    expected = 'INST326'
+    output = misc.format_course_name('INST326')
+    assert(expected == output)
+ 
