@@ -11,13 +11,10 @@ def prereq_format1_parser(prereq_description):
         prereqs(list): list of prerequisite courses found in the english description
         orFlag(boolean): true or flase based on whether "or" was present or not in the english description
     '''
-    #if the word "or" is in the description that means the group of prerequisites from this description...
-    #...need to be interpreted together
     if "or" in prereq_description:
         orFlag = True
     else:
         orFlag = False
-    #cleaning out characters not a course name or a space and making a list of course names
     prereqs = prereq_description.replace("Prerequisite: ", "")
     prereqs = prereqs.replace("and ", "").replace("or", "").replace(",", "").split()
     return prereqs, orFlag
@@ -26,27 +23,25 @@ def prereq_format1_parser(prereq_description):
 # 1 course with minumum grade of C- from... format
 
 def prereq_format2a_parser(prereq_description):
-     '''parses prerequisite with format: C- from; with an "and" in it.
+    '''parses prerequisite with format: C- from; with an "and" in it.
     Args:
         prereq_description(str): prerequisite written in english words
     Returns:
-        prereqs(list): list of prerequisite courses found in the english description
+        prereq(list): list of prerequisite courses found in the english description
     '''
-    #finding the substring of text with the prerequisites
     prereq = re.search(r'(?<=from \().*(?=\))', prereq_description).group().split(", ")
     return prereq
 
 # 1 course with minumum grade of C- from... format
 
 def prereq_format2b_parser(prereq_description):
-     '''parses prerequisite with format: Prerequisite: C- from; with an "and" in it
+    '''parses prerequisite with format: Prerequisite: C- from; with an "and" in it
     Args:
         prereq_description(str): prerequisite written in english words
     Returns:
-        prereqs(list): list of prerequisite courses found in the english description
+        prereq(list): list of prerequisite courses found in the english description
         andFlag(boolean): true or flase based on whether "and" was present or not in the english description
     '''
-    #finding the substring of text with the prerequisites
     prereq = re.search(r'(?<=from ).*', prereq_description).group()
     andFlag = False
     if "and" in prereq:
@@ -59,15 +54,13 @@ def prereq_format2c_parser(prereq_description):
     Args:
         prereq_description(str): prerequisite written in english words
     Returns:
-        prereqs(list): list of prerequisite courses found in the english description
+        prereq(list): list of prerequisite courses found in the english description
         andFlag(boolean): true or flase based on whether "and" was present or not in the english description
-    #finding the substring of text with the prerequisites
+    '''
     prereq = re.search(r'(?<=and \().*(?=\))', prereq_description).group()
     andFlag = False
-    #if the word "and" is present it means the group of prerequisites found in the description need to be interpreted separately
     if "and" in prereq:
         andFlag = True
-    #cleaning out anything not a course name or a space and making a list of course names
     prereq = prereq.replace("or ", "").replace("and ", "").replace(",", "").split(" ")
     return prereq, andFlag
 
@@ -75,21 +68,31 @@ def prereq_format2c_parser(prereq_description):
 # minimum grade of C- in... format
 
 def prereq_format3_parser(prereq_description):
-     '''parses prerequisite with format: C- in
+    '''parses prerequisite with format: C- in
     Args:
         prereq_description(str): prerequisite written in english words
     Returns:
-        prereqs(list): list of prerequisite courses found in the english description
+        prereq(list): list of prerequisite courses found in the english description
         andFlag(boolean): true or flase based on whether "and" was present or not in the english description
     '''
-    #finding the substring of text with the prerequisites
     prereq = re.search(r'(?<=C- in ).*', prereq_description).group()
     andFlag = False
     if "and" in prereq:
         andFlag = True
-    #cleaning out anything not a course name or a space and making a list of course names
     prereq = prereq.replace("or ", "").replace("and ", "").replace(",", "").split(" ")
     return prereq, andFlag
+
+# one of the following (...)
+
+def prereq_format4_parser(prereq_description):
+    '''parses prerequisite with format: one of the following (...)
+    Args:
+        prereq_description(str): prerequisite written in english words
+    Returns:
+        prereqs(list): list of prerequisite courses found in the english description
+    '''
+    prereq = re.search(r'(?<=\().*(?=\))', prereq_description).group().replace("or", "").split(", ")
+    return prereq
 
 
 '''
@@ -113,7 +116,18 @@ def prerequisite_assembler(prerequisites):
         if a condition is met, there is an associated parser function that will handle
         the prerequisite that contains a specific substring
         '''
-        if "C- from (" in prereq:
+
+        #filters out the ambiguous prerquisites that people can get around with permission and/or placement tests
+        if ("higher" in prereq) or ("must" in prereq) or ("Must" in prereq) or ("permission" in prereq) or ("eligibility" in prereq) or ("test" in prereq):
+            return []
+        
+        #the prerequisites that made it past the filter have strict course prerequisites that cannot be avoided
+
+        if "following" in prereq:
+            parsed_prereq = prereq_format4_parser(prereq)
+            assembled_prerequisites.append(parsed_prereq)
+        
+        elif "C- from (" in prereq:
 
             parsed_prereq = prereq_format2a_parser(prereq)
             assembled_prerequisites.append(parsed_prereq)
@@ -155,7 +169,6 @@ def prerequisite_assembler(prerequisites):
 
         elif prereq.startswith("Prerequisite: "):
             if not any(char.isdigit() for char in prereq):
-                print(prereq)
                 continue
             parsed_prereq, orFlag = prereq_format1_parser(prereq)
             if orFlag == True:
@@ -178,9 +191,10 @@ def crosslist_parser(script):
     Returns:
         crosslist(list): list of crosslisted courses
     '''
-    #cleans out anything not a course or a space and makes a list of courses
+    #getting rid of the non-course words
     script = script.replace("Credit only granted for: ", "")
     script = script.replace(",", "").replace("and ", "").replace("or ", "")
+    #creating a list of the courses
     crosslist = script.split()
     return crosslist
 
@@ -202,3 +216,5 @@ def genEd_parser(genEd):
             temp.append(gen)
         genEd = [temp]
     return genEd
+
+
