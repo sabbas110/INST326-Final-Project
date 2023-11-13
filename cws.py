@@ -5,12 +5,13 @@ from prp import crosslist_parser, prerequisite_assembler
 
 
 def get_content(course_in, url):
-    '''gets all content under the tag containing a course name from the webpage the url leads to
+    '''retreives the html content for a specific course on one of the schedule of classes pages
+       this is a subportion of the get_course_content function
     Args:
-        course_in(str): name of a course in schedule of classes format
-        url(str): url to the schedule of classes webpage (either fall 2023 or spring 2024)
+        course_in(str): name of the course
+        url(str): url link to the webpage where the content is housed
     Returns:
-        content(beautiful soup object): an object containing html describing the content of the course
+        content(soup object): html content of a specific course
     '''
 
     #webscraping:
@@ -26,7 +27,7 @@ def get_content(course_in, url):
 
     return content
 
-
+#need try and except clause for course_content = soup.find("div", id = formatted_course) line to handle invalid course error
 def get_course_content(course_in):
     '''Finds the html content associated with a course on the Schedule of Classes on Testudo.
     Args:
@@ -93,7 +94,6 @@ def clean_list(old_list):
     Returns:
         clean_list(list): list with filtered and cleanly formatted items
     '''
-    
     #initializing new list for cleaned requirements
     clean_list = []
 
@@ -124,11 +124,12 @@ def get_requirements(course_content):
         #creating list of requirements
         requirements = requirements.split(".")
 
-        #cleaning them
         requirements = clean_list(requirements)
         return requirements
     except:
+        #no requirements found in the first div tag of the first div tag which is where the requirements are always housed
         return []
+
 
 def get_corequisite(course_content):
     '''gets the corequisites course(s) of a course
@@ -138,14 +139,15 @@ def get_corequisite(course_content):
         requirement(str): phrase describing corequisite of a course
         empty list if no corequisites are found
     '''
-        
     requirements = get_requirements(course_content)
     for requirement in requirements:
 
         #checking if a prerequisite requirement exists
         #returning that requirement if it does exist
         if requirement.startswith("Corequisite:"):
-            return requirement
+
+            requirement = requirement.replace("Corequisite: ", "")
+            return [requirement]
         
     #none were found
     return []
@@ -158,17 +160,14 @@ def get_prerequisites(course_content):
     Returns:
         prerequisites(list): list of prerequisite courses for a course
         empty list if no prerequisites are found
-    '''
-        
+    ''' 
     requirements = get_requirements(course_content)
     for requirement in requirements:
 
         #checking if a prerequisite requirement exists
+        #returning that requirement if it does exist
         if requirement.startswith("Prerequisite:"):
-            
-            #splitting it into a list by the standard ";" character that denotes separation of requirements
             requirement_list = requirement.split(";")
-            #cleaning it and running it through the assembler so it can be properly parsed for further data analysis
             requirement_list = clean_list(requirement_list)
             prerequisites = prerequisite_assembler(requirement_list)
             return prerequisites
@@ -185,8 +184,6 @@ def get_crosslist(course_content):
         requirement(str): crosslist courses for a course
         empty list if no crosslist is found
     '''
-
-    #finding the crosslist requirement
     requirements = get_requirements(course_content)
     for requirement in requirements:
         if requirement.startswith("Credit only granted for:"):
@@ -205,17 +202,25 @@ def get_genEd(course_content):
         genEd(list): list of genEds
         empty list if no genEds are found
     '''
-    
     #retreiving the genEds from the course on webpage
     try:
         genEd = course_content.find("div", class_ = "gen-ed-codes-group six columns")
         genEd = genEd.text.replace("\t", "").replace("\n", " ").replace("GenEd:", "").replace(" ", "")
         genEd = genEd.split(",")
+
         for item in genEd:
+
             if "or" in item:
+
                 genEd.remove(item)
                 satisfactions = item.split("or")
                 genEd.append(satisfactions)
+
+            if len(genEd) == 1 and genEd[0] == "":
+                genEd = []
+
         return genEd
+    
+    #no genEds were found
     except:
         return []
