@@ -1,6 +1,6 @@
 import sys
 from misc import Course
-
+'''
 graduation_plan = {
     0: [Course("STAT100")],
     1: [Course("MATH115"), Course("STAT100"), Course("ENGL101"), Course("JOUR200"), Course("AASP200")],
@@ -12,7 +12,7 @@ graduation_plan = {
     7: [Course("INST346"), Course("INST362"), Course("INST366"), Course("AREC365"), Course("COMM230")],
     8: [Course("INST490"), Course("INST464"), Course("inst408i"), Course("COMM250"), Course("ECON185")],
 }
-
+'''
 
 def verify_credits(graduation_plan):
     '''assesses validity of graduation plan in terms of credit requirements for graduation at UMD
@@ -614,8 +614,10 @@ def verify_major_requirements(major, graduation_plan):
     return requirements_satisfied
 
          
+'''
 print(verify_credits(graduation_plan))
 print(verify_prerequisite(graduation_plan))
 print(verify_corequisite(graduation_plan))
 print(verify_genEd(graduation_plan))
 print(verify_major_requirements("information science", graduation_plan))
+'''
