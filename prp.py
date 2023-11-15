@@ -216,5 +216,3 @@ def genEd_parser(genEd):
             temp.append(gen)
         genEd = [temp]
     return genEd
-
-
