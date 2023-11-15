@@ -3,7 +3,7 @@ from misc import Course
 '''
 graduation_plan = {
     0: [Course("STAT100")],
-    1: [Course("MATH115"), Course("STAT100"), Course("ENGL101"), Course("JOUR200"), Course("AASP200")],
+    1: [Course("MATH115"), Course("MATH113"), Course("ENGL101"), Course("JOUR200"), Course("AASP200")],
     2: [Course("INST126"), Course("PSYC100"), Course("RDEV250"), Course("COMM107"), Course("THET116")],
     3: [Course("INST201"), Course("INST326"), Course("INST311"), Course("BSCI135"), Course("ANSC101")],
     4: [Course("INST327"), Course("INST335"), Course("ENGL290"), Course("AMST202"), Course("KNES265")],
@@ -57,10 +57,10 @@ def verify_credits(graduation_plan):
         output_message += f"Your graduation plan is {120 - total_credits} credits under the 120 credit minimum"
 
     #if the plan failed, print message describing where the plan fails the credit requirements
-    if credits_satisfaction == False:
-        print(output_message)
+    if credits_satisfaction == True:
+        output_message = "Satisfied"
 
-    return credits_satisfaction
+    return credits_satisfaction, output_message
 
 
 def verify_genEd(graduation_plan):
@@ -172,7 +172,9 @@ def verify_genEd(graduation_plan):
             FSAR_credit_count >= 3 and DSNL_credit_count >= 1 and DSNS_and_DSNL_credit_count >= 7 and DSHS_credit_count >= 6 and 
             DSHU_credit_count >= 6 and DSSP_credit_count >= 6 and FSAW_credit_count >= 6 and DVUP_credit_count >= 4):
 
-            return True
+            genEd_satisfaction = True
+            satisfaction_message = "Satisfied"
+            return genEd_satisfaction, satisfaction_message
 
     '''
     Heres the idea of whats happening below:
@@ -311,7 +313,8 @@ def verify_genEd(graduation_plan):
 
             #a combination was found that satisfies the requirements
             genEd_satisfaction = True
-            return genEd_satisfaction
+            satisfaction_message = "Satisfied"
+            return genEd_satisfaction, satisfaction_message
         
         else:
             #combination does not satisfy the requirements so move onto next combination
@@ -362,10 +365,7 @@ def verify_genEd(graduation_plan):
     if DVUP_credit_count < 4:
         satisfaction_message += f"{4 - DVUP_credit_count} more credits are needed to satisfy DVUP\n"
 
-    #the code only gets here if the genEd_satisfaction is false
-    #print out what went wrong (satisfaction_message)
-    print(satisfaction_message)
-    return genEd_satisfaction
+    return genEd_satisfaction, satisfaction_message
 
 
 
@@ -464,12 +464,12 @@ def verify_prerequisite(graduation_plan):
 
                     credited_courses.append(crosslisted_course)
 
-    #printing output message if any prerequisites were not fulfilled
-    if completed_prerequisites == False:
+    #setting the output message to None if all prerequisites are satisfied
+    if completed_prerequisites == True:
 
-        print(output_message)
+        output_message = "Satisfied"
 
-    return completed_prerequisites
+    return completed_prerequisites, output_message
 
 
 def verify_corequisite(graduation_plan):
@@ -537,10 +537,10 @@ def verify_corequisite(graduation_plan):
 
     #if the corequisite satisfaction got reassigned to false
     #something went wrong so print out what went wrong
-    if corequisite_satisfaction == False:
-        print(output_message)
+    if corequisite_satisfaction == True:
+        output_message = "Satisfied"
     
-    return corequisite_satisfaction
+    return corequisite_satisfaction, output_message
 
 
 def verify_major_requirements(major, graduation_plan):
@@ -596,9 +596,9 @@ def verify_major_requirements(major, graduation_plan):
         '''
         if len(data["core_courses"]) > 0:
             requirements_satisfied = False
-            output_message += "Missing the following:\n"
+            output_message += "Missing the following major requirements:\n"
             for course in data["core_courses"]:
-                output_message += f"{course.name}\n"
+                output_message += f"{course}\n"
 
         if elective_count < 5:
             requirements_satisfied = False
@@ -608,13 +608,12 @@ def verify_major_requirements(major, graduation_plan):
         requirements_satisfied = False
 
     #if the requirements were not all satisfied then print out what went wrong
-    if requirements_satisfied == False:
-        print(output_message)
+    if requirements_satisfied == True:
+        output_message = "Satisfied"
 
-    return requirements_satisfied
+    return requirements_satisfied, output_message
 
-         
-'''
+'''      
 print(verify_credits(graduation_plan))
 print(verify_prerequisite(graduation_plan))
 print(verify_corequisite(graduation_plan))
