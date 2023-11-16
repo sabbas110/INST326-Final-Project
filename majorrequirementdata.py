@@ -45,3 +45,10 @@ social_data_science = {
         "SPHL100", "EPIB301", "EPIB315", "HLTH200", "EPIB330", "EPIB400", "EPIB463", "FMSC310", "FMSC332", "FMSC460", "HLSA300", "HLSA465", "HLSA484", "HLTH424", "HLTH434", "HLTH377", "KNES400", "KNES401", "MIEH240", "MIEH400", "PHSC401", "PHSC412"
                   ]
 }
+
+technology_and_information_design = {
+    
+    "core_courses": ["INST204", "PLCY388D", "INST367", "INST406", "INST454", "INST466", "NST491"],
+    
+    "electives": ["INST311", "INST352", "INST366", "INST401", "INST402", "INST404", "INST405", "INST441", "INST460", "INST463"]
+}
