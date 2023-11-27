@@ -566,46 +566,65 @@ def verify_major_requirements(major, graduation_plan):
         data = information_science_data
         #initializing the elective count that will need to get to 5 in order to satisfy the upper level major elective requirement
         elective_count = 0
+        minimum_electives = 5
+    
+    elif major == "social data science":
 
-        #cycling throuhg the list of courses each semester
-        for courses in graduation_plan.values():
+        #retrieving the information science major requirement data
+        from majorrequirementdata import social_data_science_data
+        data = social_data_science_data
+        #initializing the elective count that will need to get to 5 in order to satisfy the upper level major elective requirement
+        elective_count = 0
+        minimum_electives = 6
 
-            #cycling through each course in a semester
-            for course in courses:
-                name = course.name
-                #checking if the course name is in the list of core courses
-                if name in data["core_courses"]:
-                    #removing the core course from the list to facilitate checking later on
-                    #effectively checking them off
-                    data["core_courses"].remove(name)
-
-                if name in data["electives"]:
-                    elective_count += 1
-
-        '''
-        if all of the requirements are satisified:
-        
-            there will be no more core couses left in the core courses list
-            because they would have been all "checked off" (removed)
-
-            the upper level major elective count will be atleast 5
-            because 5 is the minimum required upper level major elective courses to satisfy the requirement
-
-        if there are courses left in the core courses list and/or the elective count is less than 5
-        then not all major requirements were satisfied
-        '''
-        if len(data["core_courses"]) > 0:
-            requirements_satisfied = False
-            output_message += "Missing the following major requirements:\n"
-            for course in data["core_courses"]:
-                output_message += f"{course}\n"
-
-        if elective_count < 5:
-            requirements_satisfied = False
-            output_message += f"Need {5 - elective_count} more upper level major electives"
     else:
+
+        #retrieving the information science major requirement data
+        from majorrequirementdata import technology_and_information_design_data
+        data = technology_and_information_design_data
+        #initializing the elective count that will need to get to 5 in order to satisfy the upper level major elective requirement
+        elective_count = 0
+        minimum_electives = 6
+
+    #cycling throuhg the list of courses each semester
+    for courses in graduation_plan.values():
+
+        #cycling through each course in a semester
+        for course in courses:
+            name = course.name
+            #checking if the course name is in the list of core courses
+            if name in data["core_courses"]:
+                #removing the core course from the list to facilitate checking later on
+                #effectively checking them off
+                data["core_courses"].remove(name)
+
+            if name in data["electives"]:
+                elective_count += 1
+
+    '''
+    if all of the requirements are satisified:
         
+        there will be no more core couses left in the core courses list
+        because they would have been all "checked off" (removed)
+
+        the upper level major elective count will be atleast 5
+        because 5 is the minimum required upper level major elective courses to satisfy the requirement
+
+    if there are courses left in the core courses list and/or the elective count is less than 5
+    then not all major requirements were satisfied
+    '''
+    if len(data["core_courses"]) > 0:
+
         requirements_satisfied = False
+        output_message += "Missing the following major requirements:\n"
+
+        for course in data["core_courses"]:
+
+            output_message += f"{course}\n"
+
+    if elective_count < minimum_electives:
+        requirements_satisfied = False
+        output_message += f"Need {5 - elective_count} more major electives"
 
     #if the requirements were not all satisfied then print out what went wrong
     if requirements_satisfied == True:
