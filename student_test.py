@@ -29,11 +29,19 @@ def get_crosslistTest():
     assert(flag == expected flag)
 '''
 
+#We can hardcode everything in the test cases except the output statement
+    
+def test_course_content():
+    output = cws.get_course_content('INST326')
+    #Do multiple subtests with each line being a subtest using .find method
+    #Find credits for string output assert(3=output)
+    #Find seats: assert(15=output)
+
 
 def test_credits():
-    course_content = cws.get_course_content('INST326')
+    #course_content = cws.get_course_content('INST326')
     expected = 3
-    output = cws.get_credits(course_content)
+    output = cws.get_credits('INST326')
     assert(expected == output)
 
 
@@ -100,7 +108,3 @@ def test_courseformat():
     expected = 'INST326'
     output = misc.format_course_name('INST326')
     assert(expected == output)
- 
-
-
-
