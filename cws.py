@@ -152,7 +152,6 @@ def get_corequisite(course_content):
     #none were found
     return []
 
-
 def get_prerequisites(course_content):
     '''gets the prerequisite courses for a course
     Args:
