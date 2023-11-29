@@ -29,10 +29,7 @@ major_label.grid(row=2, column=0, sticky="nsew")
 
 #creating dropdown menu and positioning onto GUI
 #major will be assigned to whatever major is selected here
-majors_menu = OptionMenu(root, major, "Information Science", "Technology and Information Design", 
-                        "Social Data Science:- African American Studies", "Social Data Science:-Anthropology", "Social Data Science:-Economics", "Social Data Science:-Geographical Sciences & GIS", 
-                        "Social Data Science:-Government & Politics & International Relations", "Social Data Science:-Psychology", 
-                        "Social Data Science:-Sociology", "Social Data Science:-Public Health")
+majors_menu = OptionMenu(root, major, "Information Science", "Technology and Information Design", "Social Data Science")
 majors_menu.grid(row = 2, column = 0)
 majors_menu.config(bg="#43572E", fg= "white")
 
