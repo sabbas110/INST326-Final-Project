@@ -3,7 +3,7 @@ import misc
 import prp
 
 #run it with:
-#python3 -m pytest StudentTests.py  
+#python3 -m pytest student_test.py  
 '''
 heres the idea:
 
@@ -29,68 +29,69 @@ def get_crosslistTest():
     assert(flag == expected flag)
 '''
 
-def creditsTest():
+def test_credits():
     expected = 3
     output = cws.get_credits("INST326")
     assert(expected == output)
 
-def corequisiteTest():
+def test_corequisite():
     expected = []
     output = cws.get_corequisite("INST326")
     assert(expected == output)
 
-def prerequisiteTest():
+def test_prerequisite():
     expected = [[INST201, PSYC100, SOCY105]]
     output = cws.get_prerequisites('INST371')
     assert(expected == output)
 
-def getGenEdTest():
+def test_getGenEd():
     expected = ['DSHS', 'DVUP']
     output = cws.get_genEd('HIST111')
     assert(expected == output)
 
-def prereq1Test():
+def test_prereq1():
     expected = 'Minimum grade of C- in INST126 or GEOG276.'
     output = prp.prereq_format1_parser('INST326')
     assert(expected == output)
 
-def prereq2aTest():
+def test_prereq2a():
     expected = 'Minimum grade of C- in CMSC141 and MATH140.'
     output = prp.prereq_format2a_parser('CMSC142')
     assert(expected == output)
 
-def prereq2bTest():
+def test_prereq2b():
     expected = 'Minimum grade of C- in CMSC330 and CMSC351; 1 course with a minimum grade of C- from (MATH240, MATH341, MATH461).'
     output = prp.prereq_format2b_parser('CMSC426')
     assert(expected == output)
 
-def prereq2cTest():
+def test_prereq2c():
     expected = '1 course with a minimum grade of C- from (MATH131, MATH141).'
     output = prp.prereq_format2c_parser('MATH240')
     assert(expected == output)
 
-def prereq3Test():
+def test_prereq3():
     expected = 'Minimum grade of C- in INST364.'
     output = prp.prereq_format3_parser('INST467')
     assert(expected == output)
 
-def prereqassemblerTest():
+def test_prereqassembler():
     expected = 'Minimum grade of C- from INST126 or GEOG276; and minimum grade of C- in STAT100; and minimum grade of C- in one of the following (AASP101, ANTH210, ANTH260, ECON200, ECON201,GEOG202, GVPT170, PSYC100, SOCY100, or SOCY105).'
     output = prp.prerequisite_assembler('INST366')
     assert(expected == output)
 
-def crosslistTest():
+def test_crosslist():
     expected = 'CMSC100.'
     output = prp.crosslist_parser('INST101')
     assert(expected == output)
 
-def genEdparserTest():
+def test_genEdparser():
     expected = ['DSSP']
     output = prp.genEd_parser('INST327')
     assert(expected == output)
 
-def courseformatTest():
+def test_courseformat():
     expected = 'INST326'
     output = misc.format_course_name('INST326')
     assert(expected == output)
  
+
