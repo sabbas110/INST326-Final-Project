@@ -87,8 +87,8 @@ def test_prereqassembler():
     assert(expected == output)
 
 def test_crosslist():
-    expected = 'CMSC100.'
-    output = prp.crosslist_parser('INST101')
+    expected = ['INST101', 'CMSC100']
+    output = prp.crosslist_parser('Credit only granted for: INST101, CMSC100')
     assert(expected == output)
 
 def test_genEdparser():
