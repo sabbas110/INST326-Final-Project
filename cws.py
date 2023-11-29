@@ -1,4 +1,4 @@
-from bs4 import BeautifulSoup
+rom bs4 import BeautifulSoup
 import requests
 import sys
 from prp import crosslist_parser, prerequisite_assembler
@@ -70,6 +70,7 @@ def get_course_content(course_in):
     #no course content found indicates the course is not available or does not exist
     print(f"Course: {course_in} could not be found")
     sys.exit()
+
 
 
 def get_credits(course_content):
