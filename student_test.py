@@ -29,29 +29,36 @@ def get_crosslistTest():
     assert(flag == expected flag)
 '''
 
+
 def test_credits():
+    course_content = cws.get_course_content('INST326')
     expected = 3
-    output = cws.get_credits("INST326")
+    output = cws.get_credits(course_content)
     assert(expected == output)
+
+
 
 def test_corequisite():
     expected = []
     output = cws.get_corequisite("INST326")
     assert(expected == output)
 
+
 def test_prerequisite():
-    expected = [[INST201, PSYC100, SOCY105]]
-    output = cws.get_prerequisites('INST371')
+    course_content = cws.get_course_content('INST311')
+    expected = [['PSYC100', 'SOCY105']]
+    output = cws.get_prerequisites(course_content)
     assert(expected == output)
 
 def test_getGenEd():
+    course_content = cws.get_course_content('HIST111')
     expected = ['DSHS', 'DVUP']
-    output = cws.get_genEd('HIST111')
+    output = cws.get_genEd(course_content)
     assert(expected == output)
 
 def test_prereq1():
-    expected = 'Minimum grade of C- in INST126 or GEOG276.'
-    output = prp.prereq_format1_parser('INST326')
+    expected = ([['MATH140', 'MATH141']], False)
+    output = prp.prereq_format1_parser('Prerequisite: MATH140, MATH141')
     assert(expected == output)
 
 def test_prereq2a():
