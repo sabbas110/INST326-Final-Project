@@ -107,7 +107,6 @@ def clean_list(old_list):
 
     return clean_list
 
-
 def get_requirements(course_content):
     '''gets the restrictions, prerequisites, corequisites, and crosslists associated with a course
     Args:
