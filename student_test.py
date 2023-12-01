@@ -39,16 +39,17 @@ def test_course_content():
 
 
 def test_credits():
-    #course_content = cws.get_course_content('INST326')
+    course_content = cws.get_course_content('INST326')
     expected = 3
-    output = cws.get_credits('INST326')
+    output = cws.get_credits(course_content)
     assert(expected == output)
 
 
 
 def test_corequisite():
+    course_content = cws.get_corequisite('INST326')
     expected = []
-    output = cws.get_corequisite("INST326")
+    output = cws.get_corequisite(course_content)
     assert(expected == output)
 
 
@@ -65,13 +66,15 @@ def test_getGenEd():
     assert(expected == output)
 
 def test_prereq1():
-    expected = ([['MATH140', 'MATH141']], False)
-    output = prp.prereq_format1_parser('Prerequisite: MATH140, MATH141')
+    course_content = prp.prereq_format1_parser('MATH206')
+    expected = [['MATH136', 'MATH140']]
+    output = prp.prereq_format1_parser(course_content)
     assert(expected == output)
 
 def test_prereq2a():
+    course_content = prp.prereq_format2a_parser('CMSC242')
     expected = 'Minimum grade of C- in CMSC141 and MATH140.'
-    output = prp.prereq_format2a_parser('CMSC142')
+    output = prp.prereq_format2a_parser(course_content)
     assert(expected == output)
 
 def test_prereq2b():
@@ -100,11 +103,13 @@ def test_crosslist():
     assert(expected == output)
 
 def test_genEdparser():
+    course_content = prp.genEd_parser('INST327')
     expected = ['DSSP']
-    output = prp.genEd_parser('INST327')
+    output = prp.genEd_parser(course_content)
     assert(expected == output)
 
 def test_courseformat():
+    course_content = misc.format_course_name('INST326')
     expected = 'INST326'
-    output = misc.format_course_name('INST326')
+    output = misc.format_course_name(course_content)
     assert(expected == output)
