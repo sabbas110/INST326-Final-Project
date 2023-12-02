@@ -30,15 +30,12 @@ def get_crosslistTest():
 '''
 
 #We can hardcode everything in the test cases except the output statement
-    
 def test_get_course_content():
     output = cws.get_course_content('INST326')
 
     #Do multiple subtests with each line being a subtest using .find method
     #Find credits for string output assert(3=output)
-    #Find seats: assert(15=output)
-
-
+    #Find seats: assert(15=output)   
 def test_credits():
     course_content = cws.get_course_content('INST326')
     expected = 3
@@ -46,11 +43,21 @@ def test_credits():
     assert(expected == output)
     #test a class that has 4 credits, or 2 or 1, add new test_credits2 method
 
-
+def test_credits_2():
+    course_content = cws.get_course_content('INST101')
+    expected = 1
+    output = cws.get_credits(course_content)
+    assert(expected == output)
 
 def test_corequisite():
-    course_content = cws.get_corequisite('INST326')
+    course_content = cws.get_course_content('INST326')
     expected = []
+    output = cws.get_corequisite(course_content)
+    assert(expected == output)
+
+def test_corequisite_2():
+    course_content = cws.get_course_content('CMSC131')
+    expected = ['MATH140']
     output = cws.get_corequisite(course_content)
     assert(expected == output)
 
@@ -61,11 +68,24 @@ def test_prerequisite():
     output = cws.get_prerequisites(course_content)
     assert(expected == output)
 
+def test_prerequisite_2():
+    course_content = cws.get_course_content('INST346')
+    expected = [['INST201', 'INST301'],'INST326', 'INST327']
+    output = cws.get_prerequisites(course_content)
+    assert(expected == output)
+
 def test_getGenEd():
     course_content = cws.get_course_content('HIST111')
     expected = ['DSHS', 'DVUP']
     output = cws.get_genEd(course_content)
     assert(expected == output)
+
+def test_getGenEd_2():
+    course_content = cws.get_course_content('AASP101')
+    expected = ['DSHS']
+    output = cws.get_genEd(course_content)
+    assert(expected == output)
+
 
 def test_prereq1():
     expected = (['INST327'], False)
