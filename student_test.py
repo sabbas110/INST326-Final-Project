@@ -87,9 +87,14 @@ def test_getGenEd_2():
     assert(expected == output)
 
 
-def test_prereq1():
+def test_prereq1a():
     expected = (['INST327'], False)
     output = prp.prereq_format1_parser('Prerequisite: INST327')
+    assert(expected == output)
+
+def test_prereq1b():
+    expected = (['MATH115'], False)
+    output = prp.prereq_format1_parser('Prerequisite: MATH115')
     assert(expected == output)
 
 def test_prereq2a():
