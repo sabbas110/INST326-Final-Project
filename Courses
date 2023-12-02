@@ -1,0 +1,23 @@
+'''
+graduation_plan = {
+    0: [Course("STAT100")],
+    1: [Course("MATH115"), Course("MATH113"), Course("ENGL101"), Course("JOUR200"), Course("AASP200"), Course("INST126")],
+    2: [Course("PSYC100"), Course("RDEV250"), Course("COMM107"), Course("THET116"), Course("CMSC131")],
+    3: [Course("INST201"), Course("INST326"), Course("INST311"), Course("BSCI135"), Course("ANSC101")],
+    4: [Course("INST327"), Course("ENGL290"), Course("AMST202"), Course("KNES265")],
+    5: [Course("HIST111"), Course("INST364"), Course("ENGL394"), Course("AGST333"), Course("AGST426")],
+    6: [Course("INST352"), Course("INST341"), Course("WGSS263"), Course("EDSP210"), Course("GEOG272")],
+    7: [Course("INST346"), Course("INST362"), Course("INST366"), Course("AREC365"), Course("COMM230")],
+    8: [Course("INST490"), Course("INST464"), Course("inst408i")],
+}
+'''
+
+
+complete:13: command not found: compdef
+kevinjohn@Kevins-Air-2 INST326-Final-Project-main % python3 ver.py
+(False, 'Your graduation plan is 1 credits under the 120 credit minimum')
+(True, 'Satisfied')
+(False, 'Need to be taking or have already completed MATH140 in order to take CMSC131\n')
+(False, '3 more credits are needed to satisfy DSHU\n2 more credits are needed to satisfy SCIS\n')
+(False, 'Missing the following major requirements:\nINST314\nINST335\n')
+kevinjohn@Kevins-Air-2 INST326-Final-Project-main % 
