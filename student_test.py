@@ -3,7 +3,7 @@ import misc
 import prp
 
 #run it with:
-#python3 -m pytest student_test.py  
+#python -m pytest student_test.py  
 '''
 heres the idea:
 
@@ -66,9 +66,8 @@ def test_getGenEd():
     assert(expected == output)
 
 def test_prereq1():
-    course_content = prp.prereq_format1_parser('MATH206')
     expected = [['MATH136', 'MATH140']]
-    output = prp.prereq_format1_parser(course_content)
+    output = prp.prereq_format1_parser('Prerequisite: 1 course with a minimum grade of C- from (MATH136, MATH140).')
     assert(expected == output)
 
 def test_prereq2a():
