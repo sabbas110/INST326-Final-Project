@@ -3,7 +3,7 @@ import misc
 import prp
 
 #run it with:
-#python -m pytest student_test.py  
+#python3 -m pytest student_test.py  
 '''
 heres the idea:
 
@@ -31,8 +31,9 @@ def get_crosslistTest():
 
 #We can hardcode everything in the test cases except the output statement
     
-def test_course_content():
+def test_get_course_content():
     output = cws.get_course_content('INST326')
+
     #Do multiple subtests with each line being a subtest using .find method
     #Find credits for string output assert(3=output)
     #Find seats: assert(15=output)
@@ -43,6 +44,7 @@ def test_credits():
     expected = 3
     output = cws.get_credits(course_content)
     assert(expected == output)
+    #test a class that has 4 credits, or 2 or 1, add new test_credits2 method
 
 
 
@@ -66,45 +68,43 @@ def test_getGenEd():
     assert(expected == output)
 
 def test_prereq1():
-    expected = [['MATH136', 'MATH140']]
-    output = prp.prereq_format1_parser('Prerequisite: 1 course with a minimum grade of C- from (MATH136, MATH140).')
+    expected = (['INST327'], False)
+    output = prp.prereq_format1_parser('Prerequisite: INST327')
     assert(expected == output)
 
 def test_prereq2a():
-    course_content = prp.prereq_format2a_parser('CMSC242')
-    expected = 'Minimum grade of C- in CMSC141 and MATH140.'
-    output = prp.prereq_format2a_parser(course_content)
+    expected = ['INST201', 'INST301']
+    output = prp.prereq_format2a_parser('Prerequisite: 1 course with a minimum grade of C- from (INST201, INST301)')
     assert(expected == output)
 
 def test_prereq2b():
-    expected = 'Minimum grade of C- in CMSC330 and CMSC351; 1 course with a minimum grade of C- from (MATH240, MATH341, MATH461).'
-    output = prp.prereq_format2b_parser('CMSC426')
+    expected = (['INST362', 'INST367'], False)
+    output = prp.prereq_format2b_parser('Prerequisite: Minimum grade of C- from INST362 or INST367')
     assert(expected == output)
 
 def test_prereq2c():
-    expected = '1 course with a minimum grade of C- from (MATH131, MATH141).'
-    output = prp.prereq_format2c_parser('MATH240')
+    expected = (['ENEE467', 'CMSC420'], False)
+    output = prp.prereq_format2c_parser('and (ENEE467 or CMSC420)')
     assert(expected == output)
 
 def test_prereq3():
-    expected = 'Minimum grade of C- in INST364.'
-    output = prp.prereq_format3_parser('INST467')
+    expected = (['INST364'], False)
+    output = prp.prereq_format3_parser('Minimum grade of C- in INST364')
+    assert(expected == output)
+
+def test_prereq4():
+    expected = ['INST201', 'INST301', 'BSOS233']
+    output = prp.prereq_format4_parser('minimum grade of a C- from one of the following (INST201, INST301, or BSOS233)')
     assert(expected == output)
 
 def test_prereqassembler():
-    expected = 'Minimum grade of C- from INST126 or GEOG276; and minimum grade of C- in STAT100; and minimum grade of C- in one of the following (AASP101, ANTH210, ANTH260, ECON200, ECON201,GEOG202, GVPT170, PSYC100, SOCY100, or SOCY105).'
-    output = prp.prerequisite_assembler('INST366')
+    expected = [['INST201', 'INST301'], 'INST314', 'PSYC100']
+    output = prp.prerequisite_assembler(['Prerequisite: Minimum grade of C- from INST201 or INST301', 'and minimum grade of C- in INST314 and PSYC100'])
     assert(expected == output)
 
 def test_crosslist():
     expected = ['INST101', 'CMSC100']
     output = prp.crosslist_parser('Credit only granted for: INST101, CMSC100')
-    assert(expected == output)
-
-def test_genEdparser():
-    course_content = prp.genEd_parser('INST327')
-    expected = ['DSSP']
-    output = prp.genEd_parser(course_content)
     assert(expected == output)
 
 def test_courseformat():
