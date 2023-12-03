@@ -395,8 +395,8 @@ def verify_prerequisite(graduation_plan):
             for course in courses:
                 credited_courses.append(course.name)
         
-        #move onto the first semester at UMD
-        continue
+                #move onto the first semester at UMD
+                continue
 
         #cycling through each course in the semester
         for course in courses:
@@ -440,7 +440,7 @@ def verify_prerequisite(graduation_plan):
                     
                     #checking if prerequisite has not been completed (not in the credited course list)
                     if prereq not in credited_courses:
-                    
+                        
                         #the graduation plan did not pass the prerequisite verification
                         completed_prerequisites = False
 
