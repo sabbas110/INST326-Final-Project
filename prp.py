@@ -119,7 +119,7 @@ def prerequisite_assembler(prerequisites):
         
         #filters out the ambiguous prerquisites that people can get around with permission and/or placement tests
         filter_trigger_words = ["higher", "must", "Must", "permission", "eligibility", 
-                              "test", "comparable", "Writing"]
+                              "test", "comparable", "Writing", "equivalent"]
         
         for word in filter_trigger_words:
             if word in prereq:
