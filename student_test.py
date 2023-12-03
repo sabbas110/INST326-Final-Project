@@ -113,7 +113,7 @@ def test_prereq2bi():
 #Failed, need to fix
 '''def test_prereq2bii():
     expected = (['PSYC100', 'SOCY105'], False)
-    output = prp.prereq_format2b_parser('Prerequisite: Minimum grade of C- in PSYC100 or SOCY105')
+    output = prp.prereq_format2b_parser('Prerequisite: Minimum grade of C- from PSYC100 or SOCY105')
     assert(expected == output)
 '''
 def test_prereq2ci():
