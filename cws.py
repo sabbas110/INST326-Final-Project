@@ -1,4 +1,4 @@
-rom bs4 import BeautifulSoup
+from bs4 import BeautifulSoup
 import requests
 import sys
 from prp import crosslist_parser, prerequisite_assembler
