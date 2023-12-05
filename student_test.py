@@ -1,35 +1,14 @@
 import cws
 import misc
 import prp
+from misc import Course
+import ver
+from bs4 import BeautifulSoup
+import requests
 
 #run it with:
 #python3 -m pytest student_test.py  
-'''
-heres the idea:
 
-def whatever-function-you're-testingTest()
-    expected = what the correct result should be
-    output = function-name(whatever you wanna test as a parameter)
-    assert(expect == output)
-
-
-examples (they dont work theyre just examples):
-
-def get_crosslistTest():
-    expected = [CCJS100, CCJS101]
-    output = get_crosslist("CCJS100")
-    assert(expect == output)
-
-*some functions return more than 1 thing like the parsers; they return a list and a flag(boolean).
-*youll have to do something like:
-    expected flag = False
-    expected output = [INST121, INST362]
-    output, flag = prereq1formatter("1 course with a minimum grade of C- from (INST121, INST326)")
-    assert(output == expected output)
-    assert(flag == expected flag)
-'''
-
-#We can hardcode everything in the test cases except the output statement
 def test_get_course_content():
     output = cws.get_course_content('INST326')
 
@@ -177,9 +156,6 @@ def test_courseformatb():
     output = misc.format_course_name(course_content)
     assert(expected == output)
 
-'''from misc import Course
-import ver
-
 graduation_plan = {
     0: [Course("STAT100")],
     1: [Course("MATH115"), Course("MATH113"), Course("ENGL101"), Course("JOUR200"), Course("AASP200")],
@@ -204,9 +180,7 @@ graduation_plan2 = {
     7: [Course("INST346"), Course("INST362"), Course("INST366"), Course("AREC365"), Course("COMM230")],
     8: [Course("INST490"), Course("INST464"), Course("inst408i")],
 }
-
-
-#Passed 
+ 
 def test_verify_credit():
     expected = (True, 'Satisfied')
     output = ver.verify_credits(graduation_plan)
@@ -257,5 +231,28 @@ def test_verify_corequisite():
 def test_verify_major_requirements():
     expected = (False, 'Missing the following major requirements:\nINST314\nINST335\n')
     output = ver.verify_major_requirements('Information Science', graduation_plan2)
-    assert(output==expected) 
-'''
+    assert(output==expected)
+
+def test_get_course_content():
+    content = BeautifulSoup(requests.get("https://app.testudo.umd.edu/soc/202401/INST").text, "lxml")
+    expected = content.find("div", id = "INST311")
+    output = cws.get_course_content("INST311")
+    assert(expected == output)
+
+def test_get_course_content2():
+    content = BeautifulSoup(requests.get("https://app.testudo.umd.edu/soc/202401/CMSC").text, "lxml")
+    expected = content.find("div", id = "CMSC131")
+    output = cws.get_course_content("CMSC131")
+    assert(expected == output)
+
+def test_get_content():
+    content = BeautifulSoup(requests.get("https://app.testudo.umd.edu/soc/202401/INST").text, "lxml")
+    expected = content.find("div", id = "INST326")
+    output = cws.get_content("INST326", "https://app.testudo.umd.edu/soc/202401/INST")
+    assert(expected == output)
+
+def test_get_content2():
+    content = BeautifulSoup(requests.get("https://app.testudo.umd.edu/soc/202401/ARCH").text, "lxml")
+    expected = content.find("div", id = "ARCH271")
+    output = cws.get_content("ARCH271", "https://app.testudo.umd.edu/soc/202401/ARCH")
+    assert(expected == output)
