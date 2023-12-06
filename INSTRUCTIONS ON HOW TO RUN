@@ -1,0 +1,80 @@
+1. Run the gui.py
+2. Choose a major from the dropdown menu at the top
+3. Type the classes (not case sensitive) for a semester in the textbox separated on individual lines
+  -Ex: INST101
+       PSYC100
+       CCJS100
+       BSCI135
+  -No extra spaces or any other characters not apart of the course name
+  -*If there are extra characters and/or a course name is SPELLED INCORRECTLY, the program will terminate (and a message will appear in the terminal)
+   but the gui will still appear functional
+  -The first semester is where you type courses you have credit for before the first semester at UMD
+  -Once the courses have been typed in, press the "submit courses" button. That will lock in the courses to the graduation plan
+  -After a slight delay (due to the webscraping), the semester number should update and this process can be repeated for each semester
+4. After the final semester of classes are llocked in after pressing the "submit courses" button, the textbox should be empty
+   At this point the submit graduation plan button should be pressed to run the graduation plan through the verification process
+   The results of the tests will display on screen
+   After results are displayed, close the gui to terminate the program
+
+
+Sample graduation that will pass for the information science major:
+  *Take out and/or replace some classes to see how those changes affect the results of the degree audit
+
+Credited Courses Before UMD:
+STAT100
+
+Semester 1: 
+MATH115
+MATH113
+ENGL101
+JOUR200
+AASP200
+
+Semester 2:
+INST126
+PSYC100
+RDEV250
+COMM107
+THET116
+
+Semester 3:
+INST201
+INST326
+INST311
+BSCI135
+ANSC101
+
+Semester 4:
+INST327
+INST335
+ENGL290
+AMST202
+KNES265
+
+Semester 5:
+INST314
+INST364
+ENGL394
+AGST333
+AGST426
+
+Semester 6: 
+INST352
+INST341
+WGSS263
+EDSP210
+GEOG272
+
+Semester 7:
+INST346
+INST362
+INST366
+AREC365
+COMM230
+
+Semester 8:
+INST490
+INST464
+INST408I
+COMM250
+ECON185
