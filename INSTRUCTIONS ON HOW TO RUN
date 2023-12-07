@@ -11,15 +11,15 @@
   -The first semester is where you type courses you have credit for before the first semester at UMD
   -Once the courses have been typed in, press the "submit courses" button. That will lock in the courses to the graduation plan
   -After a slight delay (due to the webscraping), the semester number should update and this process can be repeated for each semester
-4. After the final semester of classes are llocked in after pressing the "submit courses" button, the textbox should be empty
-   At this point the submit graduation plan button should be pressed to run the graduation plan through the verification process
+4. After the final semester of classes are locked in (after pressing the "submit courses" button), the textbox should be empty
+   At this point, press the submit graduation plan button to run the graduation plan through the verification checks
    The results of the tests will display on screen
    After results are displayed, close the gui to terminate the program
 
 
-Sample graduation that will pass for the information science major:
-  *Take out and/or replace some classes to see how those changes affect the results of the degree audit
-  *And don't just copy and paste it because there will be an extra space at the end of the courses if you do that
+Sample graduation that will pass the satisfaction checks for the information science major:
+  *Take out and/or replace some classes (both major related and gen-ed classes) to see how those changes affect the results of the degree audit
+  *And don't just copy and paste it because there will be an extra space at the end of the courses that will mess stuff up if you do that
 
 Credited Courses Before UMD:
 STAT100
