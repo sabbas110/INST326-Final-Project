@@ -192,7 +192,7 @@ def test_verify_genEd():
     assert(output==expected)
 
 def test_verify_prerequisite():
-    expected = (True, 'No credit for INST335 for course: INST490\n')
+    expected = (True, 'Satisfied')
     output = ver.verify_prerequisite(graduation_plan)
     assert(output==expected)    
 
